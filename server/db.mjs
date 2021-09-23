@@ -2,12 +2,18 @@ import dotenv from "dotenv";
 import pgp from "pg-promise";
 
 const db = initDb();
+//gets name and score from players table
+export const getPlayers = () => db.any("SELECT * FROM players");
 
-export const getTasks = () => db.any("SELECT * FROM tasks");
+//posts name into players table
+export const addPlayers = (name) =>
+  db.one("INSERT INTO players(name) VALUES(${name}) RETURNING *", { name });
 
-export const addTask = (name) =>
-  db.one("INSERT INTO tasks(name) VALUES(${name}) RETURNING *", { name });
+//posts name into players table
+export const addScore = (score) =>
+  db.one("INSERT INTO players(score) VALUES(${score}) RETURNING *", { score });
 
+//don't change the code below
 function initDb() {
   let connection;
 

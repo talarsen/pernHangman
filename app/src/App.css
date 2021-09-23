@@ -1,5 +1,5 @@
 h3 {
-  color: blue;
+  color: white;
 }
 * {
   box-sizing: border-box;
@@ -130,4 +130,9 @@ h1 {
 
 .notification-container.show {
   transform: translateY(-50px);
+}
+
+
+.scoreboard-title {
+  color: white;
 }
