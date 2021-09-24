@@ -135,4 +135,9 @@ h1 {
 
 .scoreboard-title {
   color: white;
+  margin-top: 10px;
+}
+
+.label {
+  color: white;
 }

@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import * as React from "react";
 
+import * as apiClient from "./apiClient";
+import AddPlayer from "./components/AddPlayer"
 import Figure from "./components/Figure";
 import Header from "./components/Header";
 import Notification from "./components/Notification"
@@ -31,8 +33,22 @@ const App = () => {
 
   //change score
   const [score, setScore]= React.useState(0);
+
+  const incrementScore = () => {
+    setScore(score + 1);
+    setPlayable(false);
+  }
+
 //change players
-  const [players, setPlayers]= React.useState(["Tara", "score: 5"]);
+  const [players, setPlayers]= React.useState([]);
+
+  const loadPlayers = async () => setPlayers(await apiClient.getPlayers());
+  const addPlayer = (player) => apiClient.addPlayer(player).then(loadPlayers);
+
+  React.useEffect(() => {
+    loadPlayers();
+  }, []);
+
 
 //need useEffect
 //meant to be a used for a side effect in the app
@@ -84,14 +100,17 @@ const App = () => {
     
   return (
   <>
+    <div>
     <Header />
-    <Scoreboard score={score} setScore={setScore} players={players} setPlayers={setPlayers} />
+    <AddPlayer addPlayer={addPlayer}/>
+    <Scoreboard score={score} setScore={setScore} players={players} setPlayers={setPlayers} loadPlayers={loadPlayers}/>
+    </div>
     <div className="game-container">
       <Figure wrongLetters={wrongLetters}/>
       <WrongLetters wrongLetters={wrongLetters} />
       <Word  selectedWord={selectedWord} correctLetters={correctLetters}/>
     </div>
-    <Popup correctLetters={correctLetters} wrongLetters={wrongLetters} selectedWord={selectedWord} setPlayable={setPlayable} playAgain={playAgain}/>
+    <Popup correctLetters={correctLetters} wrongLetters={wrongLetters} selectedWord={selectedWord} setPlayable={setPlayable} playAgain={playAgain} incrementScore={incrementScore} playable={playable}/>
       <Notification showNotification={showNotification}/> 
     
   </>

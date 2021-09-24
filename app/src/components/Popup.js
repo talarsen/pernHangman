@@ -1,27 +1,30 @@
 import React from "react";
 
 import { checkWin } from "../helpers/helpers";
+
 const Popup = ({
   correctLetters,
   wrongLetters,
   selectedWord,
   setPlayable,
+  playable,
   playAgain,
+  incrementScore,
 }) => {
   let finalMessage = "";
   let finalMessageRevealWord = "";
-  let playable = true;
 
   if (checkWin(correctLetters, wrongLetters, selectedWord) === "win") {
     finalMessage = "Congratulations! You won! ";
-    playable = false;
+
+    if (playable) incrementScore();
   } else if (checkWin(correctLetters, wrongLetters, selectedWord) === "lose") {
     finalMessage = "Sorry, you lose.";
     finalMessageRevealWord = `...the word was:${selectedWord}`;
-    playable = false;
+    setPlayable(false);
   }
-  //no array needed so useEffect will run each time a letter is played
-  React.useEffect(() => setPlayable(playable));
+  //no array needed so useEffect will run each time a letter is played ??? not sure what useeffect is doing here??
+  // React.useEffect(() => setPlayable(true));
   return (
     <div
       className="popup-container"
